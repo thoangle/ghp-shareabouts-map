@@ -2,8 +2,17 @@
   "name": "ghp-shareabouts-map",
   "private": true,
   "dependencies": {
-    "modernizr": "~2.6.2",
-    "jquery": "~1.10.2"
+    "modernizr": "~2.7.2",
+    "jquery": "~2.1.1",
+    "foundation": "~5.2.3",
+    "leaflet-0.7.3": "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.7.3.zip",
+    "swag": "~0.7.0",
+    "handlebars": "~1.3.0",
+    "moment": "~2.7.0",
+    "jqxdomainrequest": "https://github.com/MoonScript/jQuery-ajaxTransport-XDomainRequest.git#~1.0.2",
+    "backbone.marionette": "~1.8.8",
+    "shareabouts-js": "https://github.com/openplans/shareabouts.js.git#~3.1.2",
+    "gatekeeper": "https://github.com/openplans/gatekeeper.git#~0.1.1"
   },
   "devDependencies": {}
 }

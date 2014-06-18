@@ -3,59 +3,237 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>ghp shareabouts map</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <!-- build:css styles/vendor.css -->
-        <!-- bower:css -->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- TODO: Rename the title -->
+    <title>My Shareabouts Map</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-        <!-- endbower -->
-        <!-- endbuild -->
-        <!-- build:css(.tmp) styles/main.css -->
-        <link rel="stylesheet" href="styles/main.css">
-        <!-- endbuild -->
-        <script src="bower_components/modernizr/modernizr.js"></script>
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/foundation/css/normalize.css" />
+    <link rel="stylesheet" href="bower_components/foundation/css/foundation.css" />
+    <link rel="stylesheet" href="bower_components/leaflet-0.7.3/leaflet.css" />
+    <link rel="stylesheet" href="bower_components/shareabouts-js/src/styles/shareabouts.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+    <script src="bower_components/modernizr/modernizr.js"></script>
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+      <div class="browsehappy alert-box alert">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+    <![endif]-->
 
-    </head>
-    <body>
-        <!--[if lt IE 10]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+    <nav class="top-bar" data-topbar>
+      <ul class="title-area">
+        <li class="name">
+          <!-- TODO: Rename the header title -->
+          <h1><a href="#">My Shareabouts Map</a></h1>
+        </li>
+      </ul>
+
+      <section class="top-bar-section"></section>
+    </nav>
+
+    <div class="row">
+      <div class="small-12 columns">
+        <div id="shareabouts-container"></div>
+      </div>
+    </div>
 
 
-        <div class="hero-unit">
-          <h1>'Allo, 'Allo!</h1>
-          <p>You now have</p>
-          <ul>
-            <li>HTML5 Boilerplate</li>
-            <li>Sass with Compass</li>
-            <li>Modernizr</li>
-          </ul>
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/backbone/backbone.js"></script>
+    <script src="bower_components/backbone.marionette/lib/backbone.marionette.min.js"></script>
+    <script src="bower_components/leaflet-0.7.3/leaflet.js"></script>
+    <script src="bower_components/gatekeeper/gatekeeper.js"></script>
+    <script src="bower_components/jqxdomainrequest/jQuery.XDomainRequest.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/handlebars/handlebars.js"></script>
+    <script src="bower_components/swag/lib/swag.js"></script>
+
+    <script src="bower_components/shareabouts-js/src/utils.js"></script>
+    <script src="bower_components/shareabouts-js/src/auth.js"></script>
+    <script src="bower_components/shareabouts-js/src/models.js"></script>
+    <script src="bower_components/shareabouts-js/src/panel-layout.js"></script>
+    <script src="bower_components/shareabouts-js/src/place-detail-view.js"></script>
+    <script src="bower_components/shareabouts-js/src/place-form-view.js"></script>
+    <script src="bower_components/shareabouts-js/src/place-survey-view.js"></script>
+    <script src="bower_components/shareabouts-js/src/place-support-view.js"></script>
+    <script src="bower_components/shareabouts-js/src/map.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- Handlebars Templates -->
+    <script id="add-button" type="text/x-handlebars-template">
+      <a href="#" class="shareabouts-add-button button"><span>Add a Place</span></a>
+    </script>
+
+    <script id="place-detail" type="text/x-handlebars-template">
+      <div class="support-region right"></div>
+      <h2>{{ name }}</h2>
+
+      <p><small>Added
+        {{#if submitter_name }}by <em>{{ submitter_name }}</em>{{/if}}
+        {{ fromnow created_datetime }}
+      </small></p>
+
+      <p>{{nl_to_br description }}</p>
+      <div class="survey-region"></div>
+    </script>
+
+    <script id="place-form" type="text/x-handlebars-template">
+      <form>
+        <h2>Add a Place</h2>
+        <div class="row">
+          <div class="large-6 columns">
+            <label>Your Name
+              <input type="text" name="submitter_name" placeholder="" required />
+            </label>
+          </div>
+          <div class="large-6 columns">
+            <label>Your Email
+              <input type="text" name="private-email" placeholder="optional" />
+            </label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="large-12 columns">
+            <label>Title
+              <input type="text" name="name" placeholder="" required />
+            </label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="large-12 columns">
+            <label>Description
+              <textarea name="description" placeholder="" required></textarea>
+            </label>
+          </div>
         </div>
 
+        <div data-alert class="alert-box info radius form-instructions">
+          Drag the map to the correct location.
+        </div>
+        <input type="submit" value="Add to Map" class="button small expand shareabouts-submit-button"/>
+      </form>
+    </script>
 
-        <!-- build:js scripts/vendor.js -->
-        <!-- bower:js -->
-        <script src="bower_components/jquery/jquery.js"></script>
-        <!-- endbower -->
-        <!-- endbuild -->
+    <script id="place-survey" type="text/x-handlebars-template">
+      {{# if submission_sets.comments }}
+        <strong class="survey-header">{{ inflect submission_sets.comments.length "comment" "comments" true }}</strong>
+      {{ else }}
+        <strong class="survey-header">0 comments</strong>
+        {{/ if }}
+      <a href="#comment" class="reply-link right">Leave a Comment</a>
 
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X');ga('send','pageview');
-        </script>
+      <hr>
 
-        <!-- build:js({app,.tmp}) scripts/main.js -->
-        <script src="scripts/main.js"></script>
-        <!-- endbuild -->
+      <ul class="survey-items"></ul>
+      <form id="comment">
+        {{^if submitter}}
+        <p><label>Name <input name="submitter_name" type="text" value="{{ submitter_name }}"></input></label></p>
+        {{/if}}
+        <p><label>Comment <textarea name="comment" type="text">{{nl_to_br comment }}</textarea></label></p>
+
+        <div class="row">
+          <div class="small-4 columns">
+            <button>Save</button>
+          </div>
+          <div class="small-8 columns">
+            {{#if submitter}}
+            <p class="signed-in-as"><img src="{{ submitter.avatar_url }}" class="avatar" /> {{ submitter.name }}. <a class="shareabouts-auth-logout-button" href="#">Log Out</a></p>
+            {{/if}}
+          </div>
+        </div>
+
+      </form>
+    </script>
+
+    <script id="place-survey-item" type="text/x-handlebars-template">
+      <div class="panel">
+        <p class="response-value response-value-comment">{{nl_to_br comment }}</p>
+
+        <small class="response-header clearfix">
+          <strong class="response-submitter">
+            {{#if submitter}}
+              <img src="{{ submitter.avatar_url }}" class="avatar" /> {{ submitter.name }}
+            {{^}}
+              <img src="images/user-50.png" class="avatar" /> {{ submitter_name }}
+            {{/if}}
+          </strong>
+          <span class="response-date">
+            about {{ fromnow created_datetime }}
+          </span>
+        </small>
+      </div>
+    </script>
+
+    <script id="place-support" type="text/x-handlebars-template">
+      var userToken = Shareabouts.auth.getUserToken(),
+          isUserLoaded = !!userToken,
+          userSupport = _.find(data.items, function(support) { return support['user_token'] === userToken; }),
+          isSupporting = !!userSupport;
+
+      return '<form action="#" method="post" class="btn btn-block btn-small user-support">' +
+        '<input type="hidden" name="user_token" value="' + Shareabouts.auth.getUserToken() + '">' +
+        '<input type="hidden" name="visible" value="true">' +
+        '<input type="checkbox" id="support"' +
+          (isSupporting ? ' checked="checked"' : '') +
+          (isUserLoaded ? '' : ' disabled="disabled"') +
+          '>' +
+        '<label for="support"><span class="support-count">' + data.items.length + '</span> Support</label>' +
+      '</form>';
+    </script>
+
+    <script id="auth-actions" type="text/x-handlebars-template">
+      {{#if name}}
+        <ul class="right">
+          <li class="has-dropdown not-click">
+          <a href="#">{{ name }}</a>
+          <ul class="dropdown">
+            <li><a href="#" class="shareabouts-auth-logout-button">Sign Out</a></li>
+          </ul>
+          </li>
+        </ul>
+      {{else}}
+        <ul class="right">
+          <li class="has-dropdown not-click">
+          <a href="#">Sign In</a>
+          <ul class="dropdown">
+            <li><a href="#" class="shareabouts-auth-twitter-button">Twitter</a></li>
+            <li><a href="#" class="shareabouts-auth-facebook-button">Facebook</a></li>
+          </ul>
+          </li>
+        </ul>
+      {{/if}}
+    </script>
+
+
+
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='//www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-XXXXX-X');ga('send','pageview');
+    </script>
+
+    <!-- build:js({app,.tmp}) scripts/main.js -->
+    <script src="scripts/handlebars-helpers.js"></script>
+    <script src="scripts/main.js"></script>
+    <!-- endbuild -->
 </body>
 </html>
