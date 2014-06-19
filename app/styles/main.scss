@@ -18,45 +18,25 @@
 }
 
 .shareabouts-add-button-container {
-  left: 1.5em;
+  left: 0;
   bottom: 0;
   margin-left: 0;
 }
 
-.shareabouts-auth-container,
-.shareabouts-auth-menu {
-  float: left;
-/*  background-color: white;
-  border: 1px solid black;
-  padding: 0.5em;
-*/}
-.shareabouts-auth-container {
-  width: 50px;
+.shareabouts-add-button {
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
 }
+
+.panel-open .shareabouts-add-button-container {
+  display: none;
+}
+
 .shareabouts-auth-button {}
 .shareabouts-auth-avatar {
   display: block;
   width: 50px;
-}
-.shareabouts-auth-menu {
-  margin-bottom: 10px;
-}
-.shareabouts-auth-menu:before,
-.shareabouts-auth-menu:after {
-  content: '';
-  width: 0;
-  height: 0;
-  border: 17px solid white;
-  position: absolute;
-  top: 100%;
-  left: 1em;
-  border-right-color: transparent;
-  border-bottom-color: transparent;
-  border-left-color: transparent;
-}
-.shareabouts-auth-menu:before {
-  border-top-color: black;
-  margin-top: 1px;
 }
 
 .shareabouts-geometry-set .form-instructions {
@@ -91,5 +71,20 @@ textarea {
   #shareabouts-container {
     height: 600px;
   }
+
+  .shareabouts-add-button-container {
+    left: 1.5em;
+  }
+
+  .shareabouts-add-button {
+    padding-left: 2em;
+    padding-right: 2em;
+  }
+
+  .panel-open .shareabouts-add-button-container {
+    display: block;
+  }
+
+
 
 }
