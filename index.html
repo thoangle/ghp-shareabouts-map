@@ -1,0 +1,228 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- TODO 1: Rename the title -->
+    <title>My Shareabouts Map</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <link rel="stylesheet" href="styles/vendor.css"/>
+    <link rel="stylesheet" href="styles/main.css"/>
+    <script src="scripts/modernizr.js"></script>
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+      <div class="browsehappy alert-box alert">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+    <![endif]-->
+
+    <nav class="top-bar" data-topbar>
+      <ul class="title-area">
+        <li class="name">
+          <!-- TODO 2: Rename the header title -->
+          <h1><a href="#">My Shareabouts Map</a></h1>
+        </li>
+      </ul>
+
+      <section class="top-bar-section"></section>
+    </nav>
+
+    <div class="row">
+      <div class="small-12 columns">
+        <div id="shareabouts-container"></div>
+      </div>
+    </div>
+
+
+    <script src="scripts/vendor.js"></script>
+    <script>Swag.registerHelpers(Handlebars);</script>
+
+    <!-- Handlebars Templates -->
+    <!-- TODO 3: Change the appearance or text of the add place button -->
+    <script id="add-button" type="text/x-handlebars-template">
+      <a href="#" class="shareabouts-add-button button"><span>Add a Place</span></a>
+    </script>
+
+    <!-- TODO 4: Update the form for the data you want to collect. Remember
+         to prefix the names with 'private-' if you don't want it to be public.
+         Email address are a good example of private data. -->
+    <script id="place-form" type="text/x-handlebars-template">
+      <form>
+        <h2>Add a Place</h2>
+        <div class="row">
+          {{^if submitter}}
+          <div class="large-6 columns">
+            <label>Your Name
+              <input type="text" name="submitter_name" placeholder="" required />
+            </label>
+          </div>
+          <div class="large-6 columns">
+          {{else}}
+          <div class="large-12 columns">
+          {{/if}}
+            <label>Your Email
+              <input type="text" name="private-email" placeholder="optional" />
+            </label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="large-12 columns">
+            <label>Title
+              <input type="text" name="name" placeholder="" required />
+            </label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="large-12 columns">
+            <label>Description
+              <textarea name="description" placeholder="" required></textarea>
+            </label>
+          </div>
+        </div>
+
+        <div data-alert class="alert-box info radius form-instructions">
+          Drag the map to the correct location.
+        </div>
+
+        <div class="row">
+          <div class="small-4 columns">
+            <input type="submit" value="Add to Map" class="button small shareabouts-submit-button"/>
+          </div>
+          <div class="small-8 columns">
+            {{#if submitter}}
+            <p class="signed-in-as"><img src="{{ submitter.avatar_url }}" class="avatar" /> {{ submitter.name }}. <a class="shareabouts-auth-logout-button" href="#">Log Out</a></p>
+            {{/if}}
+          </div>
+        </div>
+
+      </form>
+    </script>
+
+    <!-- TODO 5: Change the template of how a saved place is displayed. -->
+    <script id="place-detail" type="text/x-handlebars-template">
+      <div class="support-region right"></div>
+
+      <h2>{{ name }}</h2>
+
+      <p><small>
+        {{#if submitter}}
+          <img src="{{ submitter.avatar_url }}" class="avatar" style="height:25px;width:25px" /> Added by {{ submitter.name }}
+        {{else}}
+          {{#if submitter_name}}
+            <img src="images/user-50.png" class="avatar" style="height:25px;width:25px" /> Added by {{ submitter_name }}
+          {{else}}
+            Add
+          {{/if}}
+        {{/if}}
+
+        {{ fromnow created_datetime }}
+      </small></p>
+
+      <p>{{nl_to_br description }}</p>
+      <div class="survey-region"></div>
+    </script>
+
+    <!-- TODO 6: You can do any kind of survey on an existing place. In this
+         example, we're simply collecting comments but you could do something
+         more sophisticated. -->
+    <script id="place-survey" type="text/x-handlebars-template">
+      <strong class="survey-header">Comments</strong>
+      <a href="#comment" class="reply-link right">Leave a Comment</a>
+
+      <hr>
+
+      <ul class="survey-items"></ul>
+
+      <form id="comment">
+        <p><label>Comment <textarea name="comment" type="text">{{nl_to_br comment }}</textarea></label></p>
+        {{^if submitter}}
+        <p><label>Name <input name="submitter_name" type="text" value="{{ submitter_name }}"></input></label></p>
+        {{/if}}
+
+        <div class="row">
+          <div class="small-4 columns">
+            <button>Save</button>
+          </div>
+          <div class="small-8 columns">
+            {{#if submitter}}
+            <p class="signed-in-as"><img src="{{ submitter.avatar_url }}" class="avatar" /> {{ submitter.name }}. <a class="shareabouts-auth-logout-button" href="#">Log Out</a></p>
+            {{/if}}
+          </div>
+        </div>
+
+      </form>
+    </script>
+
+    <!-- TODO 7: Change the template of how a survey response is displayed. -->
+    <script id="place-survey-item" type="text/x-handlebars-template">
+      <div class="panel">
+        <p class="response-value response-value-comment">{{nl_to_br comment }}</p>
+
+        <small class="response-header clearfix">
+          <strong class="response-submitter">
+            {{#if submitter}}
+              <img src="{{ submitter.avatar_url }}" class="avatar" /> {{ submitter.name }}
+            {{else}}
+              <img src="images/user-50.png" class="avatar" /> {{ submitter_name }}
+            {{/if}}
+          </strong>
+          <span class="response-date">
+            about {{ fromnow created_datetime }}
+          </span>
+        </small>
+      </div>
+    </script>
+
+    <!-- TODO 8: Change the look of the support button. -->
+    <script id="place-support" type="text/x-handlebars-template">
+      <form action="#" method="post" class="user-support">
+        <input type="hidden" name="user_token" value="{{{ user_token }}}">
+        <input type="hidden" name="visible" value="true">
+        <input type="checkbox" class="hide" id="support"{{# has_user_submitted items }} checked="checked"{{/ has_user_submitted }}>
+        <label for="support" class="button tiny"><span class="support-count">{{ items.length }}</span> Support!</label>
+      </form>
+    </script>
+
+    <!-- TODO 9: Change the look of the login widget. -->
+    <script id="auth-actions" type="text/x-handlebars-template">
+      {{#if name}}
+        <ul class="right">
+          <li class="has-dropdown not-click">
+          <a href="#">{{ name }}</a>
+          <ul class="dropdown">
+            <li><a href="#" class="shareabouts-auth-logout-button">Sign Out</a></li>
+          </ul>
+          </li>
+        </ul>
+      {{else}}
+        <ul class="right">
+          <li class="has-dropdown not-click">
+          <a href="#">Sign In</a>
+          <ul class="dropdown">
+            <li><a href="#" class="shareabouts-auth-twitter-button">Twitter</a></li>
+            <li><a href="#" class="shareabouts-auth-facebook-button">Facebook</a></li>
+          </ul>
+          </li>
+        </ul>
+      {{/if}}
+    </script>
+
+    <!-- TODO 10: Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='//www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-XXXXX-X');ga('send','pageview');
+    </script>
+
+    <!-- TODO 11: Go to main.js and edit your map settings -->
+    <script src="scripts/main.js"></script>
+</body>
+</html>
