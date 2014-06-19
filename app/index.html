@@ -72,6 +72,7 @@
     <script src="bower_components/shareabouts-js/src/map.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
+    <script>Swag.registerHelpers(Handlebars);</script>
 
     <!-- Handlebars Templates -->
     <script id="add-button" type="text/x-handlebars-template">
@@ -140,10 +141,10 @@
 
       <ul class="survey-items"></ul>
       <form id="comment">
+        <p><label>Comment <textarea name="comment" type="text">{{nl_to_br comment }}</textarea></label></p>
         {{^if submitter}}
         <p><label>Name <input name="submitter_name" type="text" value="{{ submitter_name }}"></input></label></p>
         {{/if}}
-        <p><label>Comment <textarea name="comment" type="text">{{nl_to_br comment }}</textarea></label></p>
 
         <div class="row">
           <div class="small-4 columns">
@@ -179,20 +180,12 @@
     </script>
 
     <script id="place-support" type="text/x-handlebars-template">
-      var userToken = Shareabouts.auth.getUserToken(),
-          isUserLoaded = !!userToken,
-          userSupport = _.find(data.items, function(support) { return support['user_token'] === userToken; }),
-          isSupporting = !!userSupport;
-
-      return '<form action="#" method="post" class="btn btn-block btn-small user-support">' +
-        '<input type="hidden" name="user_token" value="' + Shareabouts.auth.getUserToken() + '">' +
-        '<input type="hidden" name="visible" value="true">' +
-        '<input type="checkbox" id="support"' +
-          (isSupporting ? ' checked="checked"' : '') +
-          (isUserLoaded ? '' : ' disabled="disabled"') +
-          '>' +
-        '<label for="support"><span class="support-count">' + data.items.length + '</span> Support</label>' +
-      '</form>';
+      <form action="#" method="post" class="user-support">
+        <input type="hidden" name="user_token" value="{{{ user_token }}}">
+        <input type="hidden" name="visible" value="true">
+        <input type="checkbox" class="hide" id="support"{{# has_user_submitted items }} checked="checked"{{/ has_user_submitted }}>
+        <label for="support" class="button tiny"><span class="support-count">{{ items.length }}</span> Support!</label>
+      </form>
     </script>
 
     <script id="auth-actions" type="text/x-handlebars-template">

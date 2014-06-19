@@ -39,22 +39,7 @@
       templates: {
         'add-button': Handlebars.compile($('#add-button').html()),
         'place-detail': Handlebars.compile($('#place-detail').html()),
-        'place-support': function(data) {
-          var userToken = Shareabouts.auth.getUserToken(),
-              isUserLoaded = !!userToken,
-              userSupport = _.find(data.items, function(support) { return support['user_token'] === userToken; }),
-              isSupporting = !!userSupport;
-
-          return '<form action="#" method="post" class="btn btn-block btn-small user-support">' +
-            '<input type="hidden" name="user_token" value="' + Shareabouts.auth.getUserToken() + '">' +
-            '<input type="hidden" name="visible" value="true">' +
-            '<input type="checkbox" id="support"' +
-              (isSupporting ? ' checked="checked"' : '') +
-              (isUserLoaded ? '' : ' disabled="disabled"') +
-              '>' +
-            '<label for="support"><span class="support-count">' + data.items.length + '</span> Support</label>' +
-          '</form>';
-        },
+        'place-support': Handlebars.compile($('#place-support').html()),
         'place-survey': Handlebars.compile($('#place-survey').html()),
         'place-survey-item': Handlebars.compile($('#place-survey-item').html()),
         'place-form': Handlebars.compile($('#place-form').html())
