@@ -89,12 +89,16 @@
       <form>
         <h2>Add a Place</h2>
         <div class="row">
+          {{^if submitter}}
           <div class="large-6 columns">
             <label>Your Name
               <input type="text" name="submitter_name" placeholder="" required />
             </label>
           </div>
           <div class="large-6 columns">
+          {{else}}
+          <div class="large-12 columns">
+          {{/if}}
             <label>Your Email
               <input type="text" name="private-email" placeholder="optional" />
             </label>
@@ -118,17 +122,38 @@
         <div data-alert class="alert-box info radius form-instructions">
           Drag the map to the correct location.
         </div>
-        <input type="submit" value="Add to Map" class="button small expand shareabouts-submit-button"/>
+
+        <div class="row">
+          <div class="small-4 columns">
+            <input type="submit" value="Add to Map" class="button small shareabouts-submit-button"/>
+          </div>
+          <div class="small-8 columns">
+            {{#if submitter}}
+            <p class="signed-in-as"><img src="{{ submitter.avatar_url }}" class="avatar" /> {{ submitter.name }}. <a class="shareabouts-auth-logout-button" href="#">Log Out</a></p>
+            {{/if}}
+          </div>
+        </div>
+
       </form>
     </script>
 
     <!-- TODO 5: Change the template of how a saved place is displayed. -->
     <script id="place-detail" type="text/x-handlebars-template">
       <div class="support-region right"></div>
+
       <h2>{{ name }}</h2>
 
-      <p><small>Added
-        {{#if submitter_name }}by <em>{{ submitter_name }}</em>{{/if}}
+      <p><small>
+        {{#if submitter}}
+          <img src="{{ submitter.avatar_url }}" class="avatar" style="height:25px;width:25px" /> Added by {{ submitter.name }}
+        {{else}}
+          {{#if submitter_name}}
+            <img src="images/user-50.png" class="avatar" style="height:25px;width:25px" /> Added by {{ submitter_name }}
+          {{else}}
+            Add
+          {{/if}}
+        {{/if}}
+
         {{ fromnow created_datetime }}
       </small></p>
 
@@ -176,7 +201,7 @@
           <strong class="response-submitter">
             {{#if submitter}}
               <img src="{{ submitter.avatar_url }}" class="avatar" /> {{ submitter.name }}
-            {{^}}
+            {{else}}
               <img src="images/user-50.png" class="avatar" /> {{ submitter_name }}
             {{/if}}
           </strong>
