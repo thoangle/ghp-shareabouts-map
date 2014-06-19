@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- TODO: Rename the title -->
+    <!-- TODO 1: Rename the title -->
     <title>My Shareabouts Map</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
@@ -35,7 +35,7 @@
     <nav class="top-bar" data-topbar>
       <ul class="title-area">
         <li class="name">
-          <!-- TODO: Rename the header title -->
+          <!-- TODO 2: Rename the header title -->
           <h1><a href="#">My Shareabouts Map</a></h1>
         </li>
       </ul>
@@ -77,23 +77,14 @@
     <script>Swag.registerHelpers(Handlebars);</script>
 
     <!-- Handlebars Templates -->
+    <!-- TODO 3: Change the appearance or text of the add place button -->
     <script id="add-button" type="text/x-handlebars-template">
       <a href="#" class="shareabouts-add-button button"><span>Add a Place</span></a>
     </script>
 
-    <script id="place-detail" type="text/x-handlebars-template">
-      <div class="support-region right"></div>
-      <h2>{{ name }}</h2>
-
-      <p><small>Added
-        {{#if submitter_name }}by <em>{{ submitter_name }}</em>{{/if}}
-        {{ fromnow created_datetime }}
-      </small></p>
-
-      <p>{{nl_to_br description }}</p>
-      <div class="survey-region"></div>
-    </script>
-
+    <!-- TODO 4: Update the form for the data you want to collect. Remember
+         to prefix the names with 'private-' if you don't want it to be public.
+         Email address are a good example of private data. -->
     <script id="place-form" type="text/x-handlebars-template">
       <form>
         <h2>Add a Place</h2>
@@ -131,6 +122,23 @@
       </form>
     </script>
 
+    <!-- TODO 5: Change the template of how a saved place is displayed. -->
+    <script id="place-detail" type="text/x-handlebars-template">
+      <div class="support-region right"></div>
+      <h2>{{ name }}</h2>
+
+      <p><small>Added
+        {{#if submitter_name }}by <em>{{ submitter_name }}</em>{{/if}}
+        {{ fromnow created_datetime }}
+      </small></p>
+
+      <p>{{nl_to_br description }}</p>
+      <div class="survey-region"></div>
+    </script>
+
+    <!-- TODO 6: You can do any kind of survey on an existing place. In this
+         example, we're simply collecting comments but you could do something
+         more sophisticated. -->
     <script id="place-survey" type="text/x-handlebars-template">
       <strong class="survey-header">Comments</strong>
       <a href="#comment" class="reply-link right">Leave a Comment</a>
@@ -138,6 +146,7 @@
       <hr>
 
       <ul class="survey-items"></ul>
+
       <form id="comment">
         <p><label>Comment <textarea name="comment" type="text">{{nl_to_br comment }}</textarea></label></p>
         {{^if submitter}}
@@ -158,6 +167,7 @@
       </form>
     </script>
 
+    <!-- TODO 7: Change the template of how a survey response is displayed. -->
     <script id="place-survey-item" type="text/x-handlebars-template">
       <div class="panel">
         <p class="response-value response-value-comment">{{nl_to_br comment }}</p>
@@ -177,6 +187,7 @@
       </div>
     </script>
 
+    <!-- TODO 8: Change the look of the support button. -->
     <script id="place-support" type="text/x-handlebars-template">
       <form action="#" method="post" class="user-support">
         <input type="hidden" name="user_token" value="{{{ user_token }}}">
@@ -186,6 +197,7 @@
       </form>
     </script>
 
+    <!-- TODO 9: Change the look of the login widget. -->
     <script id="auth-actions" type="text/x-handlebars-template">
       {{#if name}}
         <ul class="right">
@@ -209,7 +221,7 @@
       {{/if}}
     </script>
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <!-- TODO 10: Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
       function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
@@ -219,6 +231,7 @@
       ga('create','UA-XXXXX-X');ga('send','pageview');
     </script>
 
+    <!-- TODO 11: Go to main.js and edit your map settings -->
     <!-- build:js({app,.tmp}) scripts/main.js -->
     <script src="scripts/handlebars-helpers.js"></script>
     <script src="scripts/main.js"></script>

@@ -5,16 +5,22 @@
 
     var sa = new Shareabouts.Map({
       el: '#shareabouts-container',
+      // TODO: Set the initial location of your map
       map: {
         center: [39.952780, -75.163136],
         zoom: 12
       },
+      // TODO: Update your map tiles. Kindly use your own since OpenPlans
+      // has to pay for these. =)
       layers: [
         {
           url: 'http://{s}.tiles.mapbox.com/v3/openplans.map-dmar86ym/{z}/{x}/{y}.png',
           attribution: '&copy; OpenStreetMap contributors, CC-BY-SA. <a href="http://mapbox.com/about/maps" target="_blank">Terms &amp; Feedback</a>'
         }
       ],
+      // TODO: Setup the conditions for how to display your markers. See
+      // below configuration details.
+      // https://github.com/openplans/argo/wiki/Configuration-Guide#style-rules
       placeStyles: [
         {
           condition: 'true',
@@ -33,6 +39,8 @@
         },
       ],
 
+      // TODO: Update this url to your dataset. THIS IS VERY IMPORTANT.
+      // Now you're done!
       datasetUrl: 'http://data.shareabouts.org/api/v2/demo-user/datasets/demo-data/places',
 
       // These are template functions that expect geojson.
