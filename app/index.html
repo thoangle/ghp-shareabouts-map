@@ -23,7 +23,9 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+    <!-- build:js scripts/modernizr.js -->
     <script src="bower_components/modernizr/modernizr.js"></script>
+    <!-- endbuild -->
   </head>
   <body>
     <!--[if lt IE 10]>
@@ -130,11 +132,7 @@
     </script>
 
     <script id="place-survey" type="text/x-handlebars-template">
-      {{# if submission_sets.comments }}
-        <strong class="survey-header">{{ inflect submission_sets.comments.length "comment" "comments" true }}</strong>
-      {{ else }}
-        <strong class="survey-header">0 comments</strong>
-        {{/ if }}
+      <strong class="survey-header">Comments</strong>
       <a href="#comment" class="reply-link right">Leave a Comment</a>
 
       <hr>
@@ -210,9 +208,6 @@
         </ul>
       {{/if}}
     </script>
-
-
-
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
