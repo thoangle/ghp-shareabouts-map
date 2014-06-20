@@ -11,7 +11,6 @@
 
 #shareabouts-container {
   width: 100%;
-  max-width: 64.063em;
   margin: 0 auto;
   overflow: hidden;
   position: relative;
@@ -85,6 +84,8 @@ textarea {
     display: block;
   }
 
-
-
+  .row.full-width {
+    width: 100%;
+    max-width: 100%;
+  }
 }
