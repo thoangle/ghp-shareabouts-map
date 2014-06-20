@@ -132,14 +132,22 @@
          more sophisticated. -->
     <script id="place-survey" type="text/x-handlebars-template">
       <strong class="survey-header">Comments</strong>
-      <a href="#comment" class="reply-link right">Leave a Comment</a>
+      <a href="#comment" class="reply-link right">How bad ass are the tanks?</a>
 
       <hr>
 
       <ul class="survey-items"></ul>
 
       <form id="comment">
-        <p><label>Comment <textarea name="comment" type="text">{{nl_to_br comment }}</textarea></label></p>
+        <p><label>Rate from one to five: 
+        <select name>="badass-ery"
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select></label></p>
+        
         {{^if submitter}}
         <p><label>Name <input name="submitter_name" type="text" value="{{ submitter_name }}"></input></label></p>
         {{/if}}
