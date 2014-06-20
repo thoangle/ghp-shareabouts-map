@@ -16,13 +16,12 @@
 
 #shareabouts-container {
   width: 100%;
-  max-width: 64.063em;
   margin: 0 auto;
   overflow: hidden;
   position: relative;
 }
 
-/* line 20, ../../app/styles/main.scss */
+/* line 19, ../../app/styles/main.scss */
 
 .shareabouts-add-button-container {
   left: 0;
@@ -30,7 +29,7 @@
   margin-left: 0;
 }
 
-/* line 26, ../../app/styles/main.scss */
+/* line 25, ../../app/styles/main.scss */
 
 .shareabouts-add-button {
   width: 100%;
@@ -38,81 +37,88 @@
   padding-right: 0;
 }
 
-/* line 32, ../../app/styles/main.scss */
+/* line 31, ../../app/styles/main.scss */
 
 .panel-open .shareabouts-add-button-container {
   display: none;
 }
 
-/* line 37, ../../app/styles/main.scss */
+/* line 36, ../../app/styles/main.scss */
 
 .shareabouts-auth-avatar {
   display: block;
   width: 50px;
 }
 
-/* line 42, ../../app/styles/main.scss */
+/* line 41, ../../app/styles/main.scss */
 
 .shareabouts-geometry-set .form-instructions {
   display: none;
 }
 
-/* line 46, ../../app/styles/main.scss */
+/* line 45, ../../app/styles/main.scss */
 
 .survey-items {
   list-style: none;
   margin-left: 0;
 }
 
-/* line 51, ../../app/styles/main.scss */
+/* line 50, ../../app/styles/main.scss */
 
 .survey-items .avatar {
   height: 25px;
   width: 25px;
 }
 
-/* line 56, ../../app/styles/main.scss */
+/* line 55, ../../app/styles/main.scss */
 
 .avatar {
   height: 50px;
   width: 50px;
 }
 
-/* line 61, ../../app/styles/main.scss */
+/* line 60, ../../app/styles/main.scss */
 
 textarea {
   height: 100px;
 }
 
-/* line 65, ../../app/styles/main.scss */
+/* line 64, ../../app/styles/main.scss */
 
 .browsehappy {
   margin-bottom: 0;
 }
 
 @media only screen and (min-width: 40.063em) {
-  /* line 71, ../../app/styles/main.scss */
+  /* line 70, ../../app/styles/main.scss */
 
   #shareabouts-container {
     height: 600px;
   }
 
-  /* line 75, ../../app/styles/main.scss */
+  /* line 74, ../../app/styles/main.scss */
 
   .shareabouts-add-button-container {
     left: 1.5em;
   }
 
-  /* line 79, ../../app/styles/main.scss */
+  /* line 78, ../../app/styles/main.scss */
 
   .shareabouts-add-button {
     padding-left: 2em;
     padding-right: 2em;
   }
 
-  /* line 84, ../../app/styles/main.scss */
+  /* line 83, ../../app/styles/main.scss */
 
   .panel-open .shareabouts-add-button-container {
     display: block;
+  }
+
+  /* line 87, ../../app/styles/main.scss */
+
+  .row.full-width {
+    width: 100%;
+    max-width: 100%;
   }
 }
